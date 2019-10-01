@@ -5,6 +5,7 @@ import com.fpy.community.dto.GithubUser;
 import com.fpy.community.mapper.UserMapper;
 import com.fpy.community.model.User;
 import com.fpy.community.provider.GithubProvider;
+import com.sun.deploy.net.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -33,7 +36,8 @@ public class AuthorizeController {
     private String redirectUri;
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code")String code, @RequestParam(name = "state")String state,
-                           HttpServletRequest request){
+                           HttpServletRequest request,
+                           HttpServletResponse response){
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);
@@ -43,17 +47,17 @@ public class AuthorizeController {
         String accessToken = githubProvider.getAccessToken(accessTokenDTO);
         GithubUser githubUser = githubProvider.getUser(accessToken);
         if(githubUser != null){
-            //数据库插入用户
+            //数据库插入用户,相当于写入session的功能
             User user = new User();
-            user.setToken(UUID.randomUUID().toString());
+            String token  = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             userMapper.insert(user);
-            //登录成功，写cookie和session
-            //放到session里面，如果我们不写cookie，会自动的写入，可以在浏览器端查看
-            request.getSession().setAttribute("user",githubUser);
+            //登录成功，写cookie
+            response.addCookie(new Cookie("token",token));
             //跳转回到首页
             return "redirect:/";
         }else{
