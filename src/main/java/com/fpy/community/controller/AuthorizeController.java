@@ -5,6 +5,7 @@ import com.fpy.community.dto.GithubUser;
 import com.fpy.community.mapper.UserMapper;
 import com.fpy.community.model.User;
 import com.fpy.community.provider.GithubProvider;
+import com.fpy.community.service.UserService;
 import com.sun.deploy.net.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,8 +27,7 @@ public class AuthorizeController {
     GithubProvider githubProvider;
 
     @Resource
-    private UserMapper userMapper;
-
+    private UserService userService;
     @Value("${github.client.id}")
     private String clientId;
     @Value("${github.client.secret}")
@@ -53,10 +53,8 @@ public class AuthorizeController {
             user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
             user.setAvatarUrl(githubUser.getAvatarUrl());
-            userMapper.insert(user);
+            userService.createOrUpdate(user);
             //登录成功，写cookie
             response.addCookie(new Cookie("token",token));
             //跳转回到首页
@@ -65,5 +63,17 @@ public class AuthorizeController {
             //登陆失败
             return "redirect:/";
         }
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response){
+        request.getSession().removeAttribute("user");
+        //删除cookie的方法，新建一个同名的cookie，值设置为null,设置为0 即立即删除
+        Cookie cookie = new Cookie("token",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        return "redirect:/";
     }
 }
