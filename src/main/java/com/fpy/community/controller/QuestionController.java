@@ -1,7 +1,6 @@
 package com.fpy.community.controller;
 
 import com.fpy.community.dto.QuestionDTO;
-import com.fpy.community.mapper.QuestionMapper;
 import com.fpy.community.service.QuestionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

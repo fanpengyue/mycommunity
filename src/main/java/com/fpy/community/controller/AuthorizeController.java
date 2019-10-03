@@ -2,16 +2,13 @@ package com.fpy.community.controller;
 
 import com.fpy.community.dto.AccessTokenDTO;
 import com.fpy.community.dto.GithubUser;
-import com.fpy.community.mapper.UserMapper;
 import com.fpy.community.model.User;
 import com.fpy.community.provider.GithubProvider;
 import com.fpy.community.service.UserService;
-import com.sun.deploy.net.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
