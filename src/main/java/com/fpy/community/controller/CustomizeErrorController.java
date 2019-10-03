@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("${server.error.path:${error.path:/error}}")
+@RequestMapping("/error")
 public class CustomizeErrorController implements ErrorController {
 
     @Override
