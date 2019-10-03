@@ -2,6 +2,8 @@ package com.fpy.community.service;
 
 import com.fpy.community.dto.PaginationDTO;
 import com.fpy.community.dto.QuestionDTO;
+import com.fpy.community.exception.CustomizeErrorCode;
+import com.fpy.community.exception.CustomizeException;
 import com.fpy.community.mapper.QuestionMapper;
 import com.fpy.community.mapper.UserMapper;
 import com.fpy.community.model.Question;
@@ -107,6 +109,9 @@ public class QuestionService {
 
     public QuestionDTO getDetailById(Integer id) {
         Question question = questionMapper.selectByPrimaryKey(id);
+        if(question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         //作用：快速的将我们question的属性赋值给questionDTO
         BeanUtils.copyProperties(question,questionDTO);
@@ -133,7 +138,10 @@ public class QuestionService {
 
             QuestionExample example = new QuestionExample();
             example.createCriteria().andIdEqualTo(question.getId());
-            questionMapper.updateByExampleSelective(updateQuestion,example);
+            int result = questionMapper.updateByExampleSelective(updateQuestion, example);
+            if(result != 1){
+                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 }
