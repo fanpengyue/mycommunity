@@ -2,10 +2,13 @@ package com.fpy.community.dto;
 
 import lombok.Data;
 
-@Data //帮助我们生成get、set、toString、hashCode、equals方法
+/**
+ * Created by codedrinker on 2019/4/24.
+ */
+@Data
 public class GithubUser {
-    private String name; //姓名
-    private Long id; //id
-    private String bio; //描述
-    private String avatarUrl;//头像url
+    private String name;
+    private Long id;
+    private String bio;
+    private String avatarUrl;
 }

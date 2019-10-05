@@ -1,10 +1,19 @@
 package com.fpy.community.mapper;
 
+
+import com.fpy.community.dto.QuestionQueryDTO;
 import com.fpy.community.model.Question;
 
+import java.util.List;
 
 public interface QuestionExtMapper {
+    int incView(Question record);
 
-    //实现增加评论数的功能
-   int incrView(Question record);
+    int incCommentCount(Question record);
+
+    List<Question> selectRelated(Question question);
+
+    Integer countBySearch(QuestionQueryDTO questionQueryDTO);
+
+    List<Question> selectBySearch(QuestionQueryDTO questionQueryDTO);
 }

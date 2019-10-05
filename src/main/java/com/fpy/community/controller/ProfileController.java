@@ -3,6 +3,7 @@ package com.fpy.community.controller;
 import com.fpy.community.dto.PaginationDTO;
 import com.fpy.community.mapper.UserMapper;
 import com.fpy.community.model.User;
+import com.fpy.community.service.NotificationService;
 import com.fpy.community.service.QuestionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,9 @@ public class ProfileController {
     @Resource
     QuestionService questionService;
 
+    @Resource
+    private NotificationService notificationService;
+
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable(name = "action") String action, Model model,
                           HttpServletRequest request,
@@ -35,12 +39,14 @@ public class ProfileController {
         if ("questions".equals(action)) {
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的提问");
+            PaginationDTO paginationDTO = questionService.listByUsserId(user.getId(), page, size);
+            model.addAttribute("pagination",paginationDTO);
         } else if ("replies".equals(action)) {
+
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "我的回复");
         }
-        PaginationDTO paginationDTO = questionService.listByUsserId(user.getId(), page, size);
-        model.addAttribute("pagination",paginationDTO);
+
         return "profile";
     }
 }

@@ -18,6 +18,7 @@ public class SessionInteceptor implements HandlerInterceptor {
 
     @Resource
     UserMapper userMapper;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         Cookie[] cookies = request.getCookies();

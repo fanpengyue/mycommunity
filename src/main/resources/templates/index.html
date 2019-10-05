@@ -12,7 +12,18 @@
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+
 </head>
+<script type="application/javascript">
+    //在页面加载的时候，去加载信息
+    window.onload = function () {
+        var closable = window.localStorage.getItem("closable");
+        if (closable == "true") {
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+</script>
 <body>
 <!--导入顶部的模块页面-->
 <div th:insert="~{navigation :: nav}"></div>
@@ -22,7 +33,7 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h3><span class="glyphicon glyphicon-list" aria-hidden="true"></span>发现</h3>
             <hr>
-            <div class="media" th:each="question : ${pagination.questions}">
+            <div class="media" th:each="question : ${pagination.data}">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object" th:src="${question.user.avatarUrl}" alt="...">

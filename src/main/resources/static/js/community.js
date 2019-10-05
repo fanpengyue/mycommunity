@@ -33,7 +33,8 @@ function comment2target(targetId, type, content) {
                 if (response.code == 2003) {
                     var isAccepted = confirm(response.message);
                     if (isAccepted) {
-                        window.open("https://github.com/login/oauth/authorize?client_id=2859958f9f059979ed3a&redirect_uri=" + document.location.origin + "/callback&scope=user&state=1");
+                        window.open("https://github.com/login/oauth/authorize?client_id=Iv1.36461377e23731c1    &redirect_uri=" + document.location.origin + "/callback&scope=user&state=1");
+                        //存储数据
                         window.localStorage.setItem("closable", true);
                     }
                 } else {
@@ -55,6 +56,8 @@ function comment(e) {
  * 展开二级评论
  */
 function collapseComments(e) {
+    //可以查询如何获取到data属性中的数据  th:data
+    //获取到要展开的二级评论的回复框的id
     var id = e.getAttribute("data-id");
     var comments = $("#comment-" + id);
 
