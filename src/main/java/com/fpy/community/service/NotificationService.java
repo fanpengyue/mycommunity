@@ -2,10 +2,14 @@ package com.fpy.community.service;
 
 import com.fpy.community.dto.NotificationDTO;
 import com.fpy.community.dto.PaginationDTO;
+import com.fpy.community.enums.NotificationStatusEnum;
 import com.fpy.community.enums.NotificationTypeEnum;
+import com.fpy.community.exception.CustomizeErrorCode;
+import com.fpy.community.exception.CustomizeException;
 import com.fpy.community.mapper.NotificationMapper;
 import com.fpy.community.model.Notification;
 import com.fpy.community.model.NotificationExample;
+import com.fpy.community.model.User;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -13,6 +17,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class NotificationService {
@@ -69,6 +74,33 @@ public class NotificationService {
         }
         paginationDTO.setData(notificationDTOS);
         return paginationDTO;
+    }
+
+    public Long unreadCount(Long userId) {
+        NotificationExample notificationExample = new NotificationExample();
+        notificationExample.createCriteria()
+                .andReceiverEqualTo(userId) //该用户的
+                .andStatusEqualTo(NotificationStatusEnum.UNREAD.getStatus()); //未读的
+        return Long.valueOf(notificationMapper.countByExample(notificationExample));
+    }
+
+    public NotificationDTO read(Long id, User user) {
+        Notification notification = notificationMapper.selectByPrimaryKey(id);
+        if (notification == null) {
+            throw new CustomizeException(CustomizeErrorCode.NOTIFICATION_NOT_FOUND);
+        }
+        if (!Objects.equals(notification.getReceiver(), user.getId())) {
+            throw new CustomizeException(CustomizeErrorCode.READ_NOTIFICATION_FAIL);
+        }
+
+        //更新为已读
+        notification.setStatus(NotificationStatusEnum.READ.getStatus());
+        notificationMapper.updateByPrimaryKey(notification);
+
+        NotificationDTO notificationDTO = new NotificationDTO();
+        BeanUtils.copyProperties(notification, notificationDTO);
+        notificationDTO.setTypeName(NotificationTypeEnum.nameOfType(notification.getType()));
+        return notificationDTO;
     }
 
 }

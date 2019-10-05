@@ -3,6 +3,7 @@ package com.fpy.community.config;
 import com.fpy.community.mapper.UserMapper;
 import com.fpy.community.model.User;
 import com.fpy.community.model.UserExample;
+import com.fpy.community.service.NotificationService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,6 +20,9 @@ public class SessionInteceptor implements HandlerInterceptor {
     @Resource
     UserMapper userMapper;
 
+    @Resource
+    NotificationService notificationService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         Cookie[] cookies = request.getCookies();
@@ -32,6 +36,8 @@ public class SessionInteceptor implements HandlerInterceptor {
                     List<User> users = userMapper.selectByExample(userExample);
                     if (users.size() != 0) {
                         request.getSession().setAttribute("user", users.get(0));
+                        Long unreadCount = notificationService.unreadCount(users.get(0).getId());
+                        request.getSession().setAttribute("unreadMessage", unreadCount);
                     }
                     break;
                 }
