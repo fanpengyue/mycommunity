@@ -9,12 +9,14 @@ import com.fpy.community.model.Comment;
 import com.fpy.community.model.User;
 import com.fpy.community.service.CommentService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+@Controller
 public class CommentController {
 
     @Resource

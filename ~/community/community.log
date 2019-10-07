@@ -1,0 +1,11 @@
+2019-10-05 20:45:39.341  INFO 20112 --- [main] com.fpy.community.CommunityApplication   : Starting CommunityApplication on DESKTOP-132IT65 with PID 20112 (D:\workspace\community\target\classes started by fanpengyue in D:\workspace\community)
+2019-10-05 20:45:39.347  INFO 20112 --- [main] com.fpy.community.CommunityApplication   : No active profile set, falling back to default profiles: default
+2019-10-05 20:45:41.006  INFO 20112 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8887 (http)
+2019-10-05 20:45:41.034  INFO 20112 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-10-05 20:45:41.034  INFO 20112 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.24]
+2019-10-05 20:45:41.184  INFO 20112 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-10-05 20:45:41.184  INFO 20112 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1761 ms
+2019-10-05 20:45:41.823  INFO 20112 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2019-10-05 20:45:41.974  INFO 20112 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2019-10-05 20:45:42.182  INFO 20112 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8887 (http) with context path ''
+2019-10-05 20:45:42.185  INFO 20112 --- [main] com.fpy.community.CommunityApplication   : Started CommunityApplication in 3.489 seconds (JVM running for 5.65)

@@ -5,6 +5,7 @@ import com.fpy.community.dto.GithubUser;
 import com.fpy.community.model.User;
 import com.fpy.community.provider.GithubProvider;
 import com.fpy.community.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
+@Slf4j
 public class AuthorizeController {
 
     @Autowired
@@ -57,6 +59,8 @@ public class AuthorizeController {
             //跳转回到首页
             return "redirect:/";
         }else{
+//            {}的作用是把后面的值写到{}里面
+            log.error("AuthorizeController callback get github user error:{}",githubUser);
             //登陆失败
             return "redirect:/";
         }
@@ -70,7 +74,6 @@ public class AuthorizeController {
         Cookie cookie = new Cookie("token",null);
         cookie.setMaxAge(0);
         response.addCookie(cookie);
-
         return "redirect:/";
     }
 }
