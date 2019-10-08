@@ -21,6 +21,7 @@ public class CommentController {
 
     @Resource
     CommentService commentService;
+
     @ResponseBody
     @RequestMapping(value = "/comment", method = RequestMethod.POST)
     public Object post(@RequestBody CommentCreateDTO commentCreateDTO,
