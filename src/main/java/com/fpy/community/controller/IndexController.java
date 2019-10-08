@@ -25,6 +25,9 @@ public class IndexController {
                         @RequestParam(name = "size",defaultValue = "5")Integer size,
                         @RequestParam(name = "search",required = false)String search){
 
+        if(search ==""||search == null){
+            search=null;
+        }
         PaginationDTO paginationDTO = questionService.list(search,page,size);
         model.addAttribute("pagination",paginationDTO);
         model.addAttribute("search", search);
