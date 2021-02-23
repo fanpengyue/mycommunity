@@ -91,6 +91,7 @@ public class PublishController {
         question.setCreator(user.getId());
         question.setId(id);
         questionService.createOrUpdate(question);
+        questionService.createOrUpdateToEs(question);
         return "redirect:/";
     }
 }
