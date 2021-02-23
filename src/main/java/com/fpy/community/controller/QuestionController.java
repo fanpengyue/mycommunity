@@ -37,4 +37,6 @@ public class QuestionController {
         model.addAttribute("relatedQuestions",relatedQuestion);
         return "question";
     }
+
+
 }
