@@ -262,9 +262,9 @@ public class QuestionService {
             //解析高亮的字段
             //获取高亮字段
             Map<String, HighlightField> highlightFields = hit.getHighlightFields();
-            System.out.println("=========="+highlightFields);
+//            System.out.println("=========="+highlightFields);
             HighlightField content = highlightFields.get("title");
-            System.out.println("==content=="+content);
+//            System.out.println("==content=="+content);
             // 原来的结果
             Map<String, Object> sourceAsMap = hit.getSourceAsMap();
             //将原来的字段替换为高亮字段即可
@@ -281,7 +281,7 @@ public class QuestionService {
             Question question = questionMapper.selectByPrimaryKey(Long.valueOf(String.valueOf(sourceAsMap.get("id"))));
             User user = userMapper.selectByPrimaryKey(question.getCreator());
             question.setTitle(String.valueOf(sourceAsMap.get("title")));
-            log.info("newTitle:"+question.getTitle());
+//            log.info("newTitle:"+question.getTitle());
             BeanUtils.copyProperties(question, questionDTO);
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
